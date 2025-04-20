@@ -10,7 +10,7 @@ function App() {
   return (
     <main className="main-content">
       <div className="form-container">
-        <img src={logo} className="logo" alt="Bordarte" className="logo" />
+        <img src={logo} className="logo" alt="Bordarte" />
         <ImageUploader setImageSrc={setImageSrc} setSettings={setSettings} />
       </div>
 

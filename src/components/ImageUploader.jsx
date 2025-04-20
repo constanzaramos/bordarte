@@ -6,7 +6,6 @@ const ImageUploader = ({ setImageSrc, setSettings }) => {
   const [pixelSize, setPixelSize] = useState(8);
   const [countTela, setCountTela] = useState(14);
   const [colorCount, setColorCount] = useState(12);
-  const [mostrarGrilla, setMostrarGrilla] = useState(true);
 
   useEffect(() => {
     const puntosPorCm = countTela / 2.54;
@@ -18,9 +17,8 @@ const ImageUploader = ({ setImageSrc, setSettings }) => {
       targetHeight,
       pixelSize,
       colorCount,
-      mostrarGrilla,
     });
-  }, [anchoCm, altoCm, pixelSize, countTela, colorCount, mostrarGrilla, setSettings]);
+  }, [anchoCm, altoCm, pixelSize, countTela, colorCount, setSettings]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -68,11 +66,6 @@ const ImageUploader = ({ setImageSrc, setSettings }) => {
         <label>
           Cantidad de colores:
           <input type="number" min="2" max="64" value={colorCount} onChange={(e) => setColorCount(Number(e.target.value))} />
-        </label>
-
-        <label className="checkbox-label">
-          <input type="checkbox" checked={mostrarGrilla} onChange={() => setMostrarGrilla(!mostrarGrilla)} />
-          Mostrar grilla
         </label>
       </div>
     </div>
