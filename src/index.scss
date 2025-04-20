@@ -1,0 +1,188 @@
+// src/styles/main.scss
+
+// 🎨 Paleta de colores pastel
+$lavanda: #a771e7;
+$rosado: #f2cbd6;
+$rosado-fuerte: #e29ca2;
+$verde-suave: #b2cbbf;
+$mostaza-suave: #f3d58c;
+$azul-profundo: #252d76;
+$beige-fondo: #fefaf6;
+$gris-linea: #dcdcdc;
+
+// 🌸 Tipografía
+$fuente-principal: 'Poppins', sans-serif;
+
+body {
+  font-family: $fuente-principal;
+  background-color: $beige-fondo;
+  color: $azul-profundo;
+  margin: 0;
+  padding: 0;
+}
+
+.app-header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+
+  .logo {
+    max-height: 80px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: $azul-profundo;
+  }
+
+  p {
+    font-size: 1rem;
+    color: adjust-color($azul-profundo, $lightness: -10%);
+    margin-top: 0.5rem;
+  }
+}
+
+.upload-box {
+  border: 2px dashed $gris-linea;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: left;
+  background-color: white;
+  color: $azul-profundo;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+select, input[type="number"], input[type="file"] {
+  border: 1px solid $gris-linea;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-family: $fuente-principal;
+  font-size: 1rem;
+  background-color: white;
+}
+
+button {
+  background-color: $rosado-fuerte;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: $fuente-principal;
+
+  &:hover {
+    background-color: adjust-color($rosado-fuerte, $lightness: -10%);
+  }
+}
+
+.color-legend {
+  width: 100%;
+  margin-top: 1rem;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background-color: white;
+    border: 1px solid $gris-linea;
+    border-radius: 8px;
+    overflow: hidden;
+
+    th, td {
+      padding: 0.5rem;
+      border-bottom: 1px solid $gris-linea;
+      text-align: left;
+    }
+
+    th {
+      background-color: $rosado;
+      color: $azul-profundo;
+    }
+
+    td:first-child {
+      text-align: center;
+    }
+
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid $gris-linea;
+      display: inline-block;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    button {
+      background-color: $lavanda;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &.active {
+        background-color: $azul-profundo;
+      }
+    }
+  }
+}
+
+.canvas-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.canvas-legend-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.canvas-left {
+  flex: 1 1 400px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.canvas-right {
+  flex: 1 1 400px;
+  max-width: 500px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid $gris-linea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.download-button {
+  margin-top: 1rem;
+  background-color: $lavanda;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: $fuente-principal;
+
+  &:hover {
+    background-color: adjust-color($lavanda, $lightness: -10%);
+  }
+}
