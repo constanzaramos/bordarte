@@ -20,6 +20,23 @@ body {
   margin: 0;
   padding: 0;
 }
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.form-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  width: 200px;         /* Puedes reducir a gusto, ej. 120px */
+  height: auto;
+
+}
 
 .app-header {
   text-align: center;
@@ -186,3 +203,54 @@ button {
     background-color: adjust-color($lavanda, $lightness: -10%);
   }
 }
+
+.image-uploader {
+  background: #fef8fb; /* fondo pastel muy claro */
+  border: 1px solid #f0e6f5;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(190, 170, 200, 0.1);
+  font-family: 'Inter', sans-serif;
+  margin: 0 auto;
+}
+
+.image-uploader label {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #5a4b66;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.input-row label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-uploader input[type="file"],
+.image-uploader input[type="number"] {
+  padding: 0.5rem;
+  border: 1px solid #dbc9e6;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #5a4b66;
+  transition: border 0.2s ease;
+}
+
+.image-uploader input[type="number"]:focus,
+.image-uploader input[type="file"]:focus {
+  border-color: #b388d8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(179, 136, 216, 0.3);
+}
+
