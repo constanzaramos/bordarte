@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ImageUploader from "./components/ImageUploader";
 import CanvasPreview from "./components/CanvasPreview";
-import logo from "./assets/logo-bordarte.png";
+import logo from "./assets/logo-bordarte1.png";
 
 function App() {
   const [imageSrc, setImageSrc] = useState(null);
