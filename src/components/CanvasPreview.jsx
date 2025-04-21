@@ -13,8 +13,20 @@ const CanvasPreview = ({
   const canvasRef = useRef(null);
   const [palette, setPalette] = useState([]);
   const [imageDataGlobal, setImageDataGlobal] = useState(null);
+  const [identifierMap, setIdentifierMap] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const generateIdentifiers = () => {
+    const ids = [];
+    for (let i = 65; i <= 90; i++) {
+      ids.push(String.fromCharCode(i)); // A–Z
+    }
+    for (let i = 1; i <= 99; i++) {
+      ids.push(i.toString().padStart(2, "0")); // 01–99
+    }
+    return ids.slice(0, 64);
+  };
 
   useEffect(() => {
     if (!imageSrc) return;
@@ -46,13 +58,22 @@ const CanvasPreview = ({
       setPalette(dmcPalette);
       setCurrentPage(1);
 
+      // Identificadores A-Z, 01-99
+      const ids = generateIdentifiers();
+      const map = dmcPalette.reduce((acc, color, index) => {
+        acc[color.rgb.join(",")] = ids[index % ids.length];
+        return acc;
+      }, {});
+      setIdentifierMap(map);
+
       const getClosestColor = (r, g, b) => {
         let minDist = Infinity;
         let closestColor = [0, 0, 0];
 
         dmcPalette.forEach((color) => {
           const [cr, cg, cb] = color.rgb;
-          const dist = Math.pow(r - cr, 2) + Math.pow(g - cg, 2) + Math.pow(b - cb, 2);
+          const dist =
+            Math.pow(r - cr, 2) + Math.pow(g - cg, 2) + Math.pow(b - cb, 2);
           if (dist < minDist) {
             minDist = dist;
             closestColor = [cr, cg, cb];
@@ -91,14 +112,32 @@ const CanvasPreview = ({
     if (!imageDataGlobal) return;
 
     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    doc.setFontSize(12);
     doc.text("Patrón de BordArte", 20, 20);
 
-    const gridCanvas = document.createElement("canvas");
     const cellSize = 10;
+    const gridCanvas = document.createElement("canvas");
     gridCanvas.width = targetWidth * cellSize + 30;
     gridCanvas.height = targetHeight * cellSize + 30;
     const ctx = gridCanvas.getContext("2d");
     ctx.font = "8px Arial";
+
+    const getClosestColor = (r, g, b) => {
+      let minDist = Infinity;
+      let closestColor = [0, 0, 0];
+
+      palette.forEach((color) => {
+        const [cr, cg, cb] = color.rgb;
+        const dist =
+          Math.pow(r - cr, 2) + Math.pow(g - cg, 2) + Math.pow(b - cb, 2);
+        if (dist < minDist) {
+          minDist = dist;
+          closestColor = [cr, cg, cb];
+        }
+      });
+
+      return closestColor;
+    };
 
     for (let y = 0; y < targetHeight; y++) {
       for (let x = 0; x < targetWidth; x++) {
@@ -107,9 +146,16 @@ const CanvasPreview = ({
         const g = imageDataGlobal.data[i + 1];
         const b = imageDataGlobal.data[i + 2];
 
-        const hilo = findClosestDMC(r, g, b);
-        ctx.fillStyle = `rgb(${hilo.rgb[0]}, ${hilo.rgb[1]}, ${hilo.rgb[2]})`;
+        const [cr, cg, cb] = getClosestColor(r, g, b);
+        const id = identifierMap[`${cr},${cg},${cb}`];
+
+        ctx.fillStyle = `rgb(${cr}, ${cg}, ${cb})`;
         ctx.fillRect(x * cellSize + 30, y * cellSize + 30, cellSize, cellSize);
+
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(id, x * cellSize + 30 + cellSize / 2, y * cellSize + 30 + cellSize / 2);
 
         ctx.strokeStyle = "#fff";
         ctx.lineWidth = 0.5;
@@ -138,10 +184,10 @@ const CanvasPreview = ({
 
     ctx.fillStyle = "black";
     for (let x = 0; x < targetWidth; x++) {
-      if ((x + 1) % 1 === 0) ctx.fillText(x + 1, x * cellSize + 32, 25);
+      ctx.fillText(x + 1, x * cellSize + 32, 25);
     }
     for (let y = 0; y < targetHeight; y++) {
-      if ((y + 1) % 1 === 0) ctx.fillText(y + 1, 10, y * cellSize + 38);
+      ctx.fillText(y + 1, 10, y * cellSize + 38);
     }
 
     const imgData = gridCanvas.toDataURL("image/png");
@@ -153,9 +199,10 @@ const CanvasPreview = ({
 
     palette.forEach((color) => {
       y += 8;
+      const id = identifierMap[color.rgb.join(",")];
       doc.setFillColor(color.rgb[0], color.rgb[1], color.rgb[2]);
       doc.rect(15, y - 5, 5, 5, "F");
-      doc.text(`${color.code} - ${color.name}`, 25, y);
+      doc.text(`${color.code} - ${color.name}  (Identificador: ${id})`, 25, y);
     });
 
     doc.save("bordarte-patron.pdf");
@@ -186,22 +233,27 @@ const CanvasPreview = ({
                   <th>Código</th>
                   <th>Nombre</th>
                   <th>RGB</th>
+                  <th>Identificador</th>
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((color, i) => (
-                  <tr key={i}>
-                    <td>
-                      <div
-                        className="color-swatch"
-                        style={{ backgroundColor: `rgb(${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]})` }}
-                      />
-                    </td>
-                    <td>{color.code}</td>
-                    <td>{color.name}</td>
-                    <td>rgb({color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]})</td>
-                  </tr>
-                ))}
+                {currentItems.map((color, i) => {
+                  const id = identifierMap[color.rgb.join(",")];
+                  return (
+                    <tr key={i}>
+                      <td>
+                        <div
+                          className="color-swatch"
+                          style={{ backgroundColor: `rgb(${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]})` }}
+                        />
+                      </td>
+                      <td>{color.code}</td>
+                      <td>{color.name}</td>
+                      <td>rgb({color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]})</td>
+                      <td>{id}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             {totalPages > 1 && (
@@ -225,8 +277,3 @@ const CanvasPreview = ({
 };
 
 export default CanvasPreview;
-
-
-
-
-  
