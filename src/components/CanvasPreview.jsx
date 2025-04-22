@@ -117,10 +117,15 @@ const CanvasPreview = ({
 
     const cellSize = 10;
     const gridCanvas = document.createElement("canvas");
-    gridCanvas.width = targetWidth * cellSize + 30;
-    gridCanvas.height = targetHeight * cellSize + 30;
+    const scaleFactor = 4;
+    gridCanvas.width = (targetWidth * cellSize + 30) * scaleFactor;
+    gridCanvas.height = (targetHeight * cellSize + 30) * scaleFactor;
+
+
     const ctx = gridCanvas.getContext("2d");
+    ctx.scale(scaleFactor, scaleFactor); 
     ctx.font = "8px Arial";
+    ctx.imageSmoothingEnabled = false;
 
     const getClosestColor = (r, g, b) => {
       let minDist = Infinity;
@@ -191,7 +196,8 @@ const CanvasPreview = ({
     }
 
     const imgData = gridCanvas.toDataURL("image/png");
-    doc.addImage(imgData, "PNG", 10, 30, 190, 150);
+    doc.addImage(imgData, "PNG", 10, 30, 190, 150, undefined, undefined, "FAST");
+
 
     let y = 190;
     doc.setFontSize(12);
