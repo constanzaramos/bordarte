@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import { agregarPortadaPDF } from "../utils/generateCoverPage";
+import { agregarPortadaPDF } from "../pages/utils/generateCoverPage";
 import "../fonts/pdfFonts"; 
 
 export function generarPDF({ imageDataGlobal, palette, identifierMap, imageSrc, width, height }) {

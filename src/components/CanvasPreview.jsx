@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
-import { getPaletteFromImageData } from "../utils/getPallete";
-import { findClosestDMC } from "../utils/findClosestDMC";
+import { getPaletteFromImageData } from "../pages/utils/getPallete";
+import { findClosestDMC } from "../pages/utils/findClosestDMC";
 import { generarPDF } from "./GeneratePDF";
 
 const CanvasPreview = ({

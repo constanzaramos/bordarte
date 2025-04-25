@@ -1,5 +1,4 @@
-import logobordarte1 from "../assets/logobordarte1.png";
-import "../fonts/pdfFonts"
+import "../../fonts/pdfFonts"
 
 export function agregarPortadaPDF(doc, { width, height, colorCount, imageSrc }) {
   const margin = 20;
@@ -13,9 +12,9 @@ export function agregarPortadaPDF(doc, { width, height, colorCount, imageSrc }) 
   doc.setLineWidth(0.5);
   doc.rect(15, 15, 180, 267);
 
-  // Logo centrado arriba
-  doc.addImage(logobordarte1, "PNG", 80, y, 50, 25);
-  y += 35;
+  // // Logo centrado arriba
+  // doc.addImage({logo}, "PNG", 80, y, 50, 25);
+  // y += 35;
 
   // Título con tipografía cute y centrada
   doc.setFont("Gloock");

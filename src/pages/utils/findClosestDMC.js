@@ -1,4 +1,4 @@
-import dmcColors from "../data/dmcColors";
+import dmcColors from "../../data/dmcColors";
 
 export const findClosestDMC = (r, g, b) => {
   let minDist = Infinity;

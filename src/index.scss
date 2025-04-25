@@ -258,3 +258,32 @@ button {
   font-size: 1rem;
   text-align: center;
 }
+
+/* src/styles.css */
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  background: #fefefe;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Lato', sans-serif;
+}
+input, button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+button {
+  background: #a771e7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
