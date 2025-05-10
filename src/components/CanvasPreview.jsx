@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { getPaletteFromImageData } from "../pages/utils/getPallete";
 import { findClosestDMC } from "../pages/utils/findClosestDMC";
 import { generarPDF } from "./GeneratePDF";
+import ToneSelector from "./ToneSelector";
 
 const CanvasPreview = ({
   imageSrc,
@@ -15,6 +16,8 @@ const CanvasPreview = ({
   const [imageDataGlobal, setImageDataGlobal] = useState(null);
   const [identifierMap, setIdentifierMap] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [useSmartContrast, setUseSmartContrast] = useState(true);
+  const [tonePrefs, setTonePrefs] = useState(null);
   const itemsPerPage = 10;
 
   const generateIdentifiers = () => {
@@ -25,7 +28,7 @@ const CanvasPreview = ({
   };
 
   useEffect(() => {
-    if (!imageSrc) return;
+    if (!imageSrc || !tonePrefs) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -45,7 +48,7 @@ const CanvasPreview = ({
       const imageData = tempCtx.getImageData(0, 0, targetWidth, targetHeight);
       setImageDataGlobal(imageData);
 
-      const newPalette = getPaletteFromImageData(imageData, colorCount);
+      const newPalette = getPaletteFromImageData(imageData, colorCount, useSmartContrast, tonePrefs);
       const dmcPalette = newPalette.map(([r, g, b]) => {
         const hilo = findClosestDMC(r, g, b);
         return { ...hilo, originalRGB: [r, g, b] };
@@ -97,7 +100,7 @@ const CanvasPreview = ({
     };
 
     img.src = imageSrc;
-  }, [imageSrc, targetWidth, targetHeight, pixelSize, colorCount]);
+  }, [imageSrc, targetWidth, targetHeight, pixelSize, colorCount, useSmartContrast, tonePrefs]);
 
   const handlePDF = () => {
     generarPDF({
@@ -107,7 +110,7 @@ const CanvasPreview = ({
       canvasRef,
       imageSrc,
       width: targetWidth,
-      height: targetHeight
+      height: targetHeight,
     });
   };
 
@@ -118,6 +121,17 @@ const CanvasPreview = ({
   return (
     <div className="canvas-legend-wrapper">
       <div className="canvas-left">
+        <label style={{ display: "block", marginBottom: "1rem" }}>
+          <input
+            type="checkbox"
+            checked={useSmartContrast}
+            onChange={() => setUseSmartContrast(!useSmartContrast)}
+          />
+          Usar paleta con más contraste
+        </label>
+
+        <ToneSelector totalColors={colorCount} onChange={setTonePrefs} />
+
         <p><strong>Patrón pixelado:</strong></p>
         <canvas ref={canvasRef} />
         <button onClick={handlePDF} className="download-button">
@@ -147,7 +161,9 @@ const CanvasPreview = ({
                       <td>
                         <div
                           className="color-swatch"
-                          style={{ backgroundColor: `rgb(${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]})` }}
+                          style={{
+                            backgroundColor: `rgb(${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]})`,
+                          }}
                         />
                       </td>
                       <td>{color.code}</td>

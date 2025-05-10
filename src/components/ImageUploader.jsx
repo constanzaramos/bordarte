@@ -65,7 +65,7 @@ const ImageUploader = ({ setImageSrc, setSettings }) => {
       <div className="input-row">
         <label>
           Cantidad de colores:
-          <input type="number" min="2" max="64" value={colorCount} onChange={(e) => setColorCount(Number(e.target.value))} />
+          <input type="number" min="2" max="50" value={colorCount} onChange={(e) => setColorCount(Number(e.target.value))} />
         </label>
       </div>
     </div>

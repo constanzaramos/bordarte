@@ -1,0 +1,115 @@
+
+
+.login-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f9f4fb, #e8daf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-weight: 300;
+  
+    .login-card {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e3d2f5;
+      width: 100%;
+      max-width: 420px;
+  
+      h2 {
+        font-family: "Gloock", serif;
+        font-size: 1.875rem;
+        color: #252d76;
+        text-align: center;
+        margin-bottom: 0.75rem;
+  
+        span {
+          color: #a771e7;
+        }
+      }
+  
+      p.subtitle {
+        font-size: 0.875rem;
+        text-align: center;
+        color: #666;
+        margin-bottom: 1.5rem;
+      }
+  
+      form {
+        .input-field {
+          width: 100%;
+          padding: 0.5rem 1rem;
+          background-color: #fdfcfe;
+          border: 1px solid #ccc;
+          border-radius: 0.75rem;
+          margin-bottom: 1rem;
+  
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #a771e7;
+          }
+        }
+  
+        .btn-primary {
+          width: 100%;
+          padding: 0.5rem;
+          background-color: #a771e7;
+          color: white;
+          border-radius: 0.75rem;
+          font-weight: 500;
+          border: none;
+          transition: background-color 0.3s;
+  
+          &:hover {
+            background-color: #8b5fcf;
+          }
+        }
+      }
+  
+      .login-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        font-size: 0.875rem;
+  
+        button {
+          color: #252d76;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+  
+      .divider {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        color: #888;
+      }
+  
+      .btn-google {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: background-color 0.2s;
+  
+        &:hover {
+          background-color: #f9f9f9;
+        }
+  
+        img {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+      }
+    }
+  }
+  
